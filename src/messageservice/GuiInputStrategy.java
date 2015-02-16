@@ -3,8 +3,13 @@ package messageservice;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author Dan Noonan
+ * GuiInputStrategy is an implementation of the MessageStrategy interface. Like
+ * GuiStrategy, it displays a String message through a JOptionPane window. In 
+ * addition, it allows for user input from a JOptionPane input dialog.
+ * 
+ * @author      Dan Noonan
+ * @version     1.00
+ * @see         MessageStrategy, GuiStrategy, HelloWorldGuiInputStrategy
  */
 public class GuiInputStrategy implements MessageStrategy {
     

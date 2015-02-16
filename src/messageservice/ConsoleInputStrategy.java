@@ -3,16 +3,27 @@ package messageservice;
 import java.util.Scanner;
 
 /**
- *
- * @author Dan Noonan
+ * ConsoleInputStrategy is an implementation of the MessageStrategy interface.
+ * Like ConsoleStrategy, it uses the console to output a String message. In 
+ * addition, it allows for console input.
+ * 
+ * @author      Dan Noonan
+ * @version     1.00
+ * @see         MessageStrategy, ConsoleStrategy, HelloWorldConsoleInputStrategy
  */
 public abstract class ConsoleInputStrategy implements MessageStrategy {
     
+    // Scanner for console input
     private static final Scanner input = new Scanner(System.in);
+    // Message to be displayed
     private String message;
+    // Message shown to user when prompted for input
     private String userPrompt = "Enter something: ";
+    // Input entered by user after prompt
     private String userInput;
 
+    /* Getters and Setters */
+    
     public final String getMessage() {
         return message;
     }
@@ -40,11 +51,8 @@ public abstract class ConsoleInputStrategy implements MessageStrategy {
     public final String getUserInput() {
         return userInput;
     }
-
-    public final void setUserInput(String userInput) {
-        this.userInput = userInput;
-    }
     
+    // MessageStrategy implementation
     @Override
     public final void showMessage() {
         System.out.print(userPrompt);
