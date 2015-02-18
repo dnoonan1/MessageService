@@ -1,40 +1,68 @@
 package messageservice;
 
 /**
- * The purpose of MessageService is to display a message in different formats
- * (including console and GUI) based on the specific strategy adopted.
- * Strategies implement the simple MessageStrategy interface, allowing for a 
- * variety of behaviors. The strategy used by MessageService can be changed at
- * runtime, making it very flexible.
+ * The purpose of MessageService is to get input and write output in different
+ * ways. A MessageService has a strategy for input, and another one for output.
  * 
  * @author      Monil Patel, Dan Noonan, et al.
  * @version     1.00
- * @see         MessageStrategy (interface)
+ * @see         MessageOutputStrategy (interface)
  */
 public class MessageService {
-    // The current strategy
-    private MessageStrategy messageStrategy;
     
-    // Constructors 
+    // The current input/output strategies
+    private MessageInputStrategy  inputStrategy;
+    private MessageOutputStrategy outputStrategy;
+    private String message; // store the message from inputStrategy
+    
+    /* Constructors */
+    
     public MessageService() {}
     
-    public MessageService(MessageStrategy messageStrategy) {
-        this.messageStrategy = messageStrategy;
+    public MessageService(MessageInputStrategy inputStrategy,
+            MessageOutputStrategy outputStrategy) {
+        setInputStrategy(inputStrategy);
+        setOutputStrategy(outputStrategy);
     }
 
-    // Get current strategy
-    public MessageStrategy getMessageStrategy() {
-        return messageStrategy;
+    /* Getters and Setters */
+    
+    public MessageInputStrategy getInputStrategy() {
+        return inputStrategy;
     }
 
-    // Set current strategy
-    public void setMessageStrategy(MessageStrategy messageStrategy) {
-        this.messageStrategy = messageStrategy;
+    public void setInputStrategy(MessageInputStrategy inputStrategy) {
+        this.inputStrategy = inputStrategy;
+    } 
+    
+    public MessageOutputStrategy getOutputStrategy() {
+        return outputStrategy;
+    }
+
+    public void setOutputStrategy(MessageOutputStrategy messageStrategy) {
+        this.outputStrategy = messageStrategy;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
     
-    // Use the current strategy
-    public void showMessage() {
-        messageStrategy.showMessage();
+    /* Misc Methods */
+    
+    public void inputMessage() throws Exception {
+        if (inputStrategy != null) {
+            message = inputStrategy.inputMessage();    
+        } // null means no input
+    }
+    
+    public void outputMessage(String message) throws Exception {
+        if (outputStrategy != null) {
+            outputStrategy.outputMessage(message);
+        } // null means no output
     }
     
 }

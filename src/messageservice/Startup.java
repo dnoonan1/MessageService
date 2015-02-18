@@ -1,35 +1,42 @@
 package messageservice;
 
-import javax.swing.JOptionPane;
-
 /**
- * Startuup is a driver for testing MessageService and various different 
- * implementations of MessageStrategy.
+ * Startup is a driver for testing MessageService and various different 
+ * implementations of MessageInputStrategy and MessageOutputStrategy.
  * 
  * @author      Dan Noonan
  * @version     1.00
- * @see         MessageService, MessageStrategy
+ * @see         MessageService, MessageInputStrategy, MessageOutputStrategy
  */
 public class Startup {
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         
-        MessageService service = new MessageService(
-                new JokeGuiStrategy()
-                /*
-                   Can use any of the following:
-                     1. HelloWorldConsoleStrategy
-                     2. HelloWorldConsoleInputStrategy
-                     3. HelloWorldGuiStrategy
-                     4. HelloWorldGuiInputStrategy
-                     5. JokeConsoleStrategy
-                     6. JokeConsoleInputStrategy
-                */
-        );
-        // Can use service.setMessageStrategy() to change strategies
+        MessageInputStrategy input = new GuiInputStrategy();
+        MessageOutputStrategy output = new GuiOutputStrategy();
+        MessageService service = new MessageService(input, output);
         
         // Use the current Strategy
-        service.showMessage();
+        service.outputMessage("Hello World!");
+        
+        // Get input from the user and output the same thing
+        service.inputMessage();
+        service.outputMessage("You said: " + service.getMessage());
+        
+        // Write a message to file and show a GUI message when done
+        service.setOutputStrategy(new FileOutputStrategy("HelloWorld.txt"));
+        service.outputMessage("Hello World!");
+        service.setOutputStrategy(output);
+        service.outputMessage("Message written to file.");
+        
+        // Copy the above file and show a GUI message when done
+        service.outputMessage("Copying file...");
+        service.setOutputStrategy(new FileOutputStrategy("HelloWorldCopy.txt"));
+        service.setInputStrategy(new FileInputStrategy("HelloWorld.txt"));
+        service.inputMessage();
+        service.outputMessage(service.getMessage());
+        service.setOutputStrategy(output);
+        service.outputMessage("File copied.");
         
     }
     
